@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>© Chrishmal</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            /* Center all text elements */
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 50%;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+<body>
+    <h2><br>Reflective Journal Marks Calculator</h2>
+    <br>
+    <table>
+        <tr>
+            <th>Criteria</th>
+            <th>Marks</th>
+            <th>Mentioned?</th>
+        </tr>
+        <tr>
+            <td>Lecture content</td>
+            <td>15</td>
+            <td><input type="checkbox" id="point1"></td>
+        </tr>
+        <tr>
+            <td>Own understanding</td>
+            <td>15</td>
+            <td><input type="checkbox" id="point2"></td>
+        </tr>
+        <tr>
+            <td>Literature</td>
+            <td>15</td>
+            <td><input type="checkbox" id="point3"></td>
+        </tr>
+        <tr>
+            <td>Where learned content have applied</td>
+            <td>15</td>
+            <td><input type="checkbox" id="point4"></td>
+        </tr>
+        <tr>
+            <td>Use of learned content in the future</td>
+            <td>15</td>
+            <td><input type="checkbox" id="point5"></td>
+        </tr>
+        <tr>
+            <td>Formatting, grammar and punctuation</td>
+            <td>5</td>
+            <td><input type="checkbox" id="point6"></td>
+        </tr>
+        <tr>
+            <td>Font: Times New Roman</td>
+            <td>5</td>
+            <td><input type="checkbox" id="point7"></td>
+        </tr>
+        <tr>
+            <td>Size: 12</td>
+            <td>5</td>
+            <td><input type="checkbox" id="point8"></td>
+        </tr>
+        <tr>
+            <td>Alignment: Justify</td>
+            <td>5</td>
+            <td><input type="checkbox" id="point9"></td>
+        </tr>
+        <tr>
+            <td>Spacing: Consistent</td>
+            <td>5</td>
+            <td><input type="checkbox" id="point10"></td>
+        </tr>
+    </table>
+    <h3><br>Total Marks: <span id="totalMarks">0</span></h3>
+    <p>
+        <font size=2.5>
+            Press ↑ and ↓ to navigate, ENTER to check and uncheck and ESC to clear.
+        </font>
+    </p>
+    <button id="clearButton">Clear</button>
+    <script>
+        const checkboxes = document.querySelectorAll('input[type="checkbox"]');
+         const totalMarksElement = document.getElementById('totalMarks');
+         
+         let totalMarks = 0;
+         
+         checkboxes.forEach(checkbox => {
+             checkbox.addEventListener('change', () => {
+                 calculateTotalMarks();
+             });
+         });
+         
+         document.addEventListener('keydown', (event) => {
+             if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+                 const currentIndex = Array.from(checkboxes).findIndex(checkbox => checkbox === document.activeElement);
+                 let nextIndex = currentIndex + (event.key === 'ArrowUp' ? -1 : 1);
+         
+                 if (nextIndex < 0) {
+                     nextIndex = checkboxes.length - 1;
+                 } else if (nextIndex >= checkboxes.length) {
+                     nextIndex = 0;
+                 }
+         
+                 checkboxes[nextIndex].focus();
+             } else if (event.key === 'Enter') {
+                 document.activeElement.click();
+             } else if (event.key === 'Escape') {
+                 checkboxes.forEach(checkbox => {
+                     checkbox.checked = false;
+                 });
+                 calculateTotalMarks();
+             }
+         });
+         
+         function calculateTotalMarks() {
+             totalMarks = Array.from(checkboxes).reduce((sum, checkbox, index) => {
+                 return sum + (checkbox.checked ? parseInt(checkbox.parentElement.previousElementSibling.textContent) : 0);
+             }, 0);
+         
+             totalMarksElement.textContent = totalMarks;
+         }
+         
+         // Add this code after your existing JavaScript code
+         
+         const clearButton = document.getElementById('clearButton');
+         
+         clearButton.addEventListener('click', () => {
+         checkboxes.forEach(checkbox => {
+         checkbox.checked = false;
+         });
+         calculateTotalMarks();
+         });
+         
+    </script>
+</body>
+
+</html>
